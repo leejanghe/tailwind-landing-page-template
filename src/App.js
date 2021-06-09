@@ -1,9 +1,5 @@
-import React, { useEffect } from 'react';
-import {
-  Switch,
-  Route,
-  useLocation
-} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import {Switch,Route,useLocation} from 'react-router-dom';
 
 import './css/style.scss';
 
@@ -15,7 +11,23 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
 
+// 로딩페이지
+import Loading from './loadingpage/Loading';
+
 function App() {
+
+// 로딩페이지 상태과리 
+
+
+const [ready, setReady] = useState(true)
+
+useEffect(()=>{
+  setTimeout(()=>{
+    setReady(false)
+  },2000)
+},[])
+
+
 
   const location = useLocation();
 
@@ -35,8 +47,8 @@ function App() {
     focusHandling('outline');
   }, [location.pathname]); // triggered on route change
 
-  return (
-    <>
+  return ready? <Loading />:(
+    
       <Switch>
         <Route exact path="/">
           <Home />
@@ -51,7 +63,7 @@ function App() {
           <ResetPassword />
         </Route>
       </Switch>
-    </>
+    
   );
 }
 
